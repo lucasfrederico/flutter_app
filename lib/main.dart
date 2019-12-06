@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'models/item.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,21 +16,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  var itens = new List<Item>();
+
+  HomePage() {
+    itens = [];
+    itens.add(Item(title: "Item 1", done: false));
+    itens.add(Item(title: "Item 2", done: true));
+    itens.add(Item(title: "Item 3", done: false));
+  }
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Text('leading'),
         title: Text('Todo list'),
-        actions: <Widget>[
-          Icon(Icons.plus_one),
-        ],
       ),
-      body: Container(
-        child: Center(
-          child: Text('Olá Mundo'),
-        ),
+      body: ListView.builder(
+        itemCount: widget.itens.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          return Text(widget.itens[index].title);
+        },
       ),
     );
   }
